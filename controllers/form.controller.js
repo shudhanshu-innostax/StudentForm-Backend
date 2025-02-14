@@ -25,3 +25,16 @@ export const addData = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
+
+export const getData = async (req, res) => {
+  try {
+    const allData = await Form.find({});
+    console.log(allData);
+    return res.status(201).json({ message: "Data fetched successfully." });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+
