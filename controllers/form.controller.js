@@ -29,8 +29,7 @@ export const addData = async (req, res) => {
 export const getData = async (req, res) => {
   try {
     const allData = await Form.find({});
-    console.log(allData);
-    return res.status(200).json({ message: "Data fetched successfully." });
+    return res.status(200).json({ message: "Data fetched successfully." , allData});
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Server error" });
