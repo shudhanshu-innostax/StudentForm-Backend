@@ -56,3 +56,35 @@ export const deleteData = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
+
+export const updateData = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const prevData = await Form.findById({ _id: id });
+    if (!prevData) {
+      return res
+        .status(400)
+        .json({ message: "Data does not exist with this id." });
+    } else {
+      const firstName = req.body.firstName || prevData.firstName;
+      const lastName = req.body.lastName || prevData.lastName;
+      const email = req.body.email || prevData.email;
+      const phone = req.body.phone || prevData.phone;
+      const department = req.body.department || prevData.department;
+
+      const updatedData = await Form.findByIdAndUpdate(id, {
+        firstName,
+        lastName,
+        email,
+        phone,
+        department,
+      });
+      return res
+        .status(201)
+        .json({ message: "Data updated successfully", updatedData });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
