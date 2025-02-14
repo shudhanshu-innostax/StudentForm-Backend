@@ -3,12 +3,19 @@ const app = express();
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 dotenv.config();
+const FormRouter = require('./routes/form.route')
 
 const PORT = process.env.PORT || 3001;
+
+// middleware for parsing data from body and form
+app.use(express.urlencoded({extended:true}))
+app.use(express.json())
 
 app.get('/',(req,res) => {
     res.send('Hello World');
 })
+
+app.use('/api/form',FormRouter)
 
 app.listen(PORT,(err) => {
     if(err){
