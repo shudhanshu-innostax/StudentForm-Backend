@@ -17,7 +17,7 @@ export const addData = async (req, res) => {
         department,
       });
       return res
-        .status(200)
+        .status(201)
         .json({ message: "Data successfully saved in the database", newData });
     }
   } catch (error) {
@@ -30,11 +30,29 @@ export const getData = async (req, res) => {
   try {
     const allData = await Form.find({});
     console.log(allData);
-    return res.status(201).json({ message: "Data fetched successfully." });
+    return res.status(200).json({ message: "Data fetched successfully." });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Server error" });
   }
 };
 
-
+export const deleteData = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const isDataExist = await Form.findById({ _id: id });
+    if (!isDataExist) {
+      return res
+        .status(400)
+        .json({ message: "Data does not exist with this id." });
+    } else {
+      const data = await Form.findByIdAndDelete({ _id: id });
+      return res
+        .status(200)
+        .json({ message: "Data deleted successfully", data });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
